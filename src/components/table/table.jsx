@@ -8,6 +8,8 @@ import {
   TableRow,
   Paper,
   styled,
+  MenuItem,
+  Select,
 } from "@mui/material";
 import { columns, clientData } from "./constant";
 
@@ -56,42 +58,62 @@ const data = (label) => {
 const dataArray = [data(H1), data(H2)];
 
 const TableDisplay = () => {
+  const [dropDown, setDropDown] = React.useState([]);
+  const handleOnSelect = (e) => {
+    setDropDown(e.target.value);
+  };
+  console.log("dropdown", dropDown);
   return (
-    <TableContainer
-      component={Paper}
-      sx={{
-        flexGrow: 1,
-        width: "95%",
-        marginLeft: "auto",
-        marginRight: "auto",
-      }}
-    >
-      <Paper>
-        <Table>
-          <TableHead>
-            {columns.map(({ label }) => (
-              <StyledTableCell
-                align="center"
-                sx={{ color: "black", fontWeight: "bold" }}
-              >
-                {label}
-              </StyledTableCell>
-            ))}
-          </TableHead>
-          <TableBody>
-            {dataArray.map((Data) => (
-              <StyledTableRow key={Math.random()} selected role="checkbox">
-                {columns.map(({ field }) => (
-                  <StyledTableCell key={field} align="center">
-                    {Data[field]}
+    <>
+      <Select
+        labelId="dropdown-select"
+        id="dropdown-name-select"
+        align="center"
+        onChange={handleOnSelect}
+        sx={{ mt: 1, mr: 20, width: "20ch" }}
+      >
+        {dataArray.map((Data) => (
+          <MenuItem value={Data}>{Data.name}</MenuItem>
+        ))}
+      </Select>
+      {dropDown && (
+        <TableContainer
+          component={Paper}
+          sx={{
+            flexGrow: 1,
+            width: "95%",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
+          <Paper>
+            <Table>
+              <TableHead>
+                {columns.map(({ label }) => (
+                  <StyledTableCell
+                    align="center"
+                    sx={{ color: "black", fontWeight: "bold" }}
+                  >
+                    {label}
                   </StyledTableCell>
                 ))}
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
-    </TableContainer>
+              </TableHead>
+              <TableBody>
+                {dataArray.map((Data) => (
+                  <StyledTableRow key={Math.random()} selected role="checkbox">
+                    {columns.map(({ field }) => (
+                      <StyledTableCell key={field} align="center">
+                        {Data[field]}
+                      </StyledTableCell>
+                    ))}
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Paper>
+        </TableContainer>
+      )}
+    </>
   );
 };
 
