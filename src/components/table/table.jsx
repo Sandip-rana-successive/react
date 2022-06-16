@@ -9,14 +9,11 @@ import {
   Paper,
   styled,
 } from "@mui/material";
-import { columns, clientData, tableData } from "./constant";
+import { columns, clientData } from "./constant";
 
 const StyledTableRow = styled(TableRow)(() => ({
-  "&:nth-of-type(even)": {
+  "&:nth-of-type(n)": {
     backgroundColor: "#fff",
-  },
-  "&:nth-of-type(odd)": {
-    backgroundColor: "#f0f0f0",
   },
   "&:hover": {
     backgroundColor: "#e0e0e0",
@@ -34,15 +31,11 @@ const StyledTableCell = styled(TableCell)(() => ({
 
 const { H1, H2 } = clientData;
 
-let name = "";
 let levelName = [];
 let isleaf = false;
 let value = "";
 
-
-
 const data = (label) => {
-  name = label?.name;
   if (label.sub) {
     isleaf = true;
     levelName.push(label.levelName);
@@ -52,14 +45,15 @@ const data = (label) => {
     return value;
   }
   return {
-    name: name,
+    name: label?.name,
+    originalValue: label?.accountId,
     value: value,
     isLeaf: isleaf,
     LevelName: levelName,
   };
 };
-console.log("Data =>", JSON.stringify(data(H1), null, 4));
-console.log("Data H2=>", JSON.stringify(data(H2), null, 4));
+
+const dataArray = [data(H1), data(H2)];
 
 const TableDisplay = () => {
   return (
@@ -85,10 +79,10 @@ const TableDisplay = () => {
             ))}
           </TableHead>
           <TableBody>
-            {tableData.map((Data) => (
+            {dataArray.map((Data) => (
               <StyledTableRow key={Math.random()} selected role="checkbox">
                 {columns.map(({ field }) => (
-                  <StyledTableCell key={Math.random()} align="center">
+                  <StyledTableCell key={field} align="center">
                     {Data[field]}
                   </StyledTableCell>
                 ))}
