@@ -59,10 +59,12 @@ const dataArray = [data(H1), data(H2)];
 
 const TableDisplay = () => {
   const [dropDown, setDropDown] = React.useState([]);
-  const handleOnSelect = (e) => {
-    setDropDown(e.target.value);
+  const handleOnSelect = (element) => {
+    const data = dataArray.filter((e) =>
+      e.name.includes(element?.target?.value?.name)
+    );
+    setDropDown(data);
   };
-  console.log("dropdown", dropDown);
   return (
     <>
       <Select
@@ -76,7 +78,7 @@ const TableDisplay = () => {
           <MenuItem value={Data}>{Data.name}</MenuItem>
         ))}
       </Select>
-      {dropDown && (
+      {dropDown?.length > 0 && (
         <TableContainer
           component={Paper}
           sx={{
@@ -99,7 +101,7 @@ const TableDisplay = () => {
                 ))}
               </TableHead>
               <TableBody>
-                {dataArray.map((Data) => (
+                {dropDown.map((Data) => (
                   <StyledTableRow key={Math.random()} selected role="checkbox">
                     {columns.map(({ field }) => (
                       <StyledTableCell key={field} align="center">
