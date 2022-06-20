@@ -4,11 +4,11 @@ export const columns = [
     label: "Name",
   },
   {
-    field: "originalValue",
+    field: "h1",
     label: "H1",
   },
   {
-    field: "originalValue",
+    field: "h2",
     label: "H2",
   },
 ];
